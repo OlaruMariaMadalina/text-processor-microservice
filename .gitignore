@@ -1,0 +1,42 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Astral UV metadata
+__pypackages__/
+.uv/
+uv.lock
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Local environment / secrets
+*.env
+*.local
+secrets.yaml
+
+# Logs
+*.log
+logs/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+pip-wheel-metadata/
+
+# Editor folders
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+.dockerignore
