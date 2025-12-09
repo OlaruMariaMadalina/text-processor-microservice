@@ -2,13 +2,18 @@ from fastapi import FastAPI, HTTPException
 import httpx
 from app.models import TextRequest, GatewayResponse, AnalysisResult
 from app.config import WORKER_URL, REQUEST_TIMEOUT
+from app.logging_config import get_logger
 
 app = FastAPI()
+
+logger = get_logger("api-gateway")
 
 
 @app.post("/process-text", response_model=GatewayResponse)
 async def process_text(req: TextRequest) -> GatewayResponse:
     """Send input text to worker service and return analysis result."""
+    logger.info("Received text of length %s", len(req.text))
+
     try:
         async with httpx.AsyncClient(timeout=REQUEST_TIMEOUT) as client:
             resp = await client.post(
@@ -18,16 +23,19 @@ async def process_text(req: TextRequest) -> GatewayResponse:
             resp.raise_for_status()
 
     except httpx.RequestError as e:
+        logger.error(f"Network error: {e}")
         raise HTTPException(
             status_code=502,
             detail=f"Worker network error: {e}"
         )
     except httpx.HTTPStatusError as e:
+        logger.error(f"Worker returned error: {e.response.text}")
         raise HTTPException(
             status_code=e.response.status_code,
             detail=f"Worker error: {e.response.text}"
         )
     except Exception as e:
+        logger.error(f"Unexpected error: {e}")
         raise HTTPException(
             status_code=500,
             detail=f"Unexpected error: {e}"
@@ -41,4 +49,5 @@ async def process_text(req: TextRequest) -> GatewayResponse:
         analysis=analysis,
     )
 
+    logger.debug("Worker analysis result: %s", analysis.model_dump())
     return gateway_response
