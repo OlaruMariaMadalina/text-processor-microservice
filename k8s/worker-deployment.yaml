@@ -26,6 +26,16 @@ spec:
                 configMapKeyRef:
                   name: text-processor-config
                   key: LOG_LEVEL
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: text-processor-config
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: text-processor-config
+                  key: REDIS_PORT
           livenessProbe:
             httpGet:
               path: /healthz

@@ -6,3 +6,5 @@ data:
   LOG_LEVEL: "DEBUG"
   WORKER_URL: "http://worker-service:8000"
   REQUEST_TIMEOUT: "5.0"
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
