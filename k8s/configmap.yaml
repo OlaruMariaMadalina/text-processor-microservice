@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: text-processor-ConfigMap
+  name: text-processor-config
 data:
   LOG_LEVEL: "DEBUG"
   WORKER_URL: "http://worker-service:8000"

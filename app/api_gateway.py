@@ -51,3 +51,9 @@ async def process_text(req: TextRequest) -> GatewayResponse:
 
     logger.debug("Worker analysis result: %s", analysis.model_dump())
     return gateway_response
+
+
+@app.get("/healthz")
+def healthz():
+    """Universal health endpoint for both liveness and readiness probes."""
+    return {"status": "ok"}

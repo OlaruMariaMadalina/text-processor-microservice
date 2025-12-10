@@ -22,3 +22,9 @@ def analyze(req: TextRequest) -> AnalysisResult:
 
     logger.debug("Analysis result: %s", result.model_dump())
     return result
+
+
+@app.get("/healthz")
+async def healthz():
+    """Universal health endpoint for both liveness and readiness probes."""
+    return {"status": "ok"}
